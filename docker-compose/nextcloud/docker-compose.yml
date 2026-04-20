@@ -42,5 +42,3 @@ services:
 networks:
   nextcloud-net:
     driver: bridge
-  proxy:
-    external: true
