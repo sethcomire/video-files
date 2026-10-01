@@ -1,0 +1,74 @@
+COMMANDS
+1. Add Docker's signing key: 
+  sudo apt update
+  sudo apt install -y ca-certificates curl
+  sudo install -m 0755 -d /etc/apt/keyrings
+  sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+  sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+2. Add Docker's software source (paste entire command):
+  sudo tee /etc/apt/sources.list.d/docker.sources << EOF
+Types: deb
+URIs: https://download.docker.com/linux/ubuntu
+Suites: $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}")
+Components: stable
+Architectures: $(dpkg --print-architecture)
+Signed-By: /etc/apt/keyrings/docker.asc
+EOF
+sudo apt update
+
+3. Install Docker:
+  sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+4. Test it:
+  sudo docker run hello-world
+
+5. Verify Docker Compose version:
+  docker compose version
+
+6. Use Docker without sudo:
+  sudo usermod -aG docker $USER
+
+ 7. Confirm no sudo: 
+  docker ps
+
+8. Prep first Compose app:
+  sudo mkdir -p /opt/docker
+  sudo chown $USER:$USER /opt/docker
+  mkdir -p /opt/docker/hello-web && cd /opt/docker/hello-web
+  nano compose.yaml
+
+9. compose.yaml (ensure indentation persists - two spaces):
+  services:
+    web:
+      image: nginx:alpine
+      ports:
+        - "8080:80"
+
+10. Start the app:
+  docker compose up -d
+
+11. List running containers in app:
+  docker compose ps
+
+12. Shut down app:
+  docker compose down
+
+13. Updating app (from app folder):
+  docker compose down && docker compose pull && docker compose up -d
+
+14. Remove app folder:
+  rm -rf /opt/docker/hello-world
+
+15. Remove stale containers
+  a. Find container ID
+    docker ps -a
+  b. Copy container ID
+  c. Remove container
+    docker rm [container id]
+
+16. Remove stale images
+  a. Find saved images
+    docker images
+  b. Remove an image
+    docker rmi [image name]
