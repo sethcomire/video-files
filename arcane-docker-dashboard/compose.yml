@@ -1,0 +1,17 @@
+services:
+  arcane:
+    image: ghcr.io/getarcaneapp/manager:latest
+    container_name: arcane
+    restart: unless-stopped
+    cgroup: host
+    ports:
+      - 3552:3552
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /opt/docker/arcane/data:/app/data
+      - /opt/docker:/opt/docker
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - ENCRYPTION_KEY=${ENCRYPTION_KEY}
+      - PROJECTS_DIRECTORY=/opt/docker
