@@ -1,2 +1,12 @@
 # Real secrets never go in this repo
 .env
+
+# Recordings and edits live in ~/youtube/Videos, never here
+*.mp4
+*.mov
+*.mkv
+*.webm
+*.wav
+*.mp3
+*.m4a
+*.kdenlive
