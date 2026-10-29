@@ -102,8 +102,10 @@ docker compose down
 ## 13. Update an app (from its folder)
 
 ```bash
-docker compose down && docker compose pull && docker compose up -d
+docker compose pull && docker compose up -d
 ```
+
+The video runs `docker compose down` first. You can skip it: without it, the app keeps running while the new image downloads, then restarts once.
 
 ## 14. Remove the app folder
 
