@@ -1,6 +1,6 @@
 # Video files
 
-Compose files, `.env` examples and commands from my YouTube videos, so you can copy them instead of typing them from the screen.
+Compose files, `.env` examples and other config files from my YouTube videos and the guides on [sethcomire.com](https://sethcomire.com). The guides explain every step; this repo holds the files.
 
 Channel: https://www.youtube.com/@sethcomire
 
@@ -10,7 +10,7 @@ Channel: https://www.youtube.com/@sethcomire
 | [Arcane: The Free Docker Dashboard Every Home Server Needs](https://youtu.be/1ITJ3Q2jNXI) | [arcane-docker-dashboard](arcane-docker-dashboard/) |
 | [Self-Host Nextcloud in 15 Minutes](https://youtu.be/InGS69ODP3E) | [nextcloud-docker-compose](nextcloud-docker-compose/) |
 
-Each folder has a README with what the video covers and what you need first.
+Each folder has a README with what the files are for, what you need first, and a link to the written guide.
 
 ## Notes
 
