@@ -16,7 +16,7 @@ id
 ## 2. Compose file
 
 ```bash
-nano compose.yaml
+nano compose.yml
 ```
 
 Paste the contents of [compose.yml](compose.yml). Save with Ctrl+O, Enter, then exit with Ctrl+X.

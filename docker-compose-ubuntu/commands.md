@@ -66,10 +66,10 @@ docker ps
 sudo mkdir -p /opt/docker
 sudo chown $USER:$USER /opt/docker
 mkdir -p /opt/docker/hello-web && cd /opt/docker/hello-web
-nano compose.yaml
+nano compose.yml
 ```
 
-## 9. compose.yaml
+## 9. compose.yml
 
 Indentation matters: use two spaces, never tabs.
 
