@@ -10,30 +10,17 @@ Sets up Caddy, a reverse proxy, with real Let's Encrypt certificates for your ap
 - [conf/Caddyfile](conf/Caddyfile): Caddy's settings, which name goes to which app. It lives in the `conf` folder, which is mounted at `/etc/caddy`, because Caddy's Docker docs advise against mounting the Caddyfile as a single file (some editors replace the file, and Caddy would keep reading the old one)
 - [.env.example](.env.example): what the `.env` file looks like (put your own Cloudflare API token in)
 
-In the Caddyfile, change `arcane.sethshomelab.com` to your own name, and `3552` to your app's port.
+In the Caddyfile, change `sethshomelab.com` to your own domain (in both blocks), and `3552` to your app's port. For each new app, add a block like Arcane's, with its own name and port, then restart Caddy.
 
-## Before you start Caddy: your app names go public
+## Why a wildcard certificate: your app names stay private
 
-The moment Caddy gets a certificate, that name goes into public Certificate Transparency logs, for good. Anyone can search them, for example with [SSLMate's certificate search](https://sslmate.com/ct_search_api/). With one certificate per app, that's a list of every app you run. Nobody can reach the apps without Tailscale, but if you'd rather keep the names private, use one wildcard certificate instead, **before** you start Caddy for the first time:
+The moment Caddy gets a certificate, that name goes into public Certificate Transparency logs, for good. Anyone can search them, for example with [SSLMate's certificate search](https://sslmate.com/ct_search_api/). With one certificate per app, that's a list of every app you run. Nobody can reach the apps without Tailscale, but the Caddyfile here keeps the names private anyway:
 
-```
-*.sethshomelab.com {
-	tls {
-		dns cloudflare {env.CF_API_TOKEN}
-	}
-	abort
-}
-
-arcane.sethshomelab.com {
-	reverse_proxy host.docker.internal:3552
-}
-```
-
-- The wildcard block gets one certificate that covers every name under your domain, so the logs only show `*.sethshomelab.com`.
+- The `*.sethshomelab.com` block gets one wildcard certificate that covers every name under your domain, so the logs only show `*.sethshomelab.com`.
 - `abort` means any name without its own block gets nothing.
 - Each app block only needs its `reverse_proxy` line; Caddy uses the wildcard certificate for it (Caddy 2.10 and newer).
 
-Names already in the logs stay there, so switching later only hides new ones. You may also see a wildcard certificate from Cloudflare in the results; Cloudflare makes it for your domain on its own, and it doesn't list your apps.
+Names already in the logs stay there, so if you've run Caddy before with one certificate per app, switching only hides new ones. You may also see a wildcard certificate from Cloudflare in the results; Cloudflare makes it for your domain on its own, and it doesn't list your apps.
 
 ## Updating Caddy
 
