@@ -1,0 +1,6 @@
+arcane.sethshomelab.com {
+	tls {
+		dns cloudflare {env.CF_API_TOKEN}
+	}
+	reverse_proxy host.docker.internal:3552
+}

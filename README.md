@@ -9,7 +9,7 @@ Channel: https://www.youtube.com/@sethcomire
 | [Docker + Docker Compose on Ubuntu: Beginner Install Guide](https://youtu.be/gL-rh90PiU8) | [docker-compose-ubuntu](docker-compose-ubuntu/) |
 | [Arcane: The Free Docker Dashboard Every Home Server Needs](https://youtu.be/1ITJ3Q2jNXI) | [arcane-docker-dashboard](arcane-docker-dashboard/) |
 | [Self-Host Nextcloud in 15 Minutes](https://youtu.be/InGS69ODP3E) | [nextcloud-docker-compose](nextcloud-docker-compose/) |
-| Caddy Reverse Proxy: Real HTTPS for Every Home App (video coming soon) | [caddy-install](caddy-install/) |
+| [Caddy Reverse Proxy Setup: Real HTTPS for Every Home App](https://youtu.be/qmF9uNdiD8Y) | [caddy-install](caddy-install/) |
 
 Each folder has a README with what the files are for, what you need first, and a link to the written guide.
 

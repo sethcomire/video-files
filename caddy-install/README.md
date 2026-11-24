@@ -1,20 +1,24 @@
 # Caddy: Real HTTPS for Your Self-Hosted Apps
 
-Video: coming soon
+Video: https://youtu.be/qmF9uNdiD8Y
 Written guide, with every command explained: https://sethcomire.com/caddy-install/
 
 Sets up Caddy, a reverse proxy, with real Let's Encrypt certificates for your apps. It proves you own the domain through Cloudflare DNS, so nothing on your router gets opened. The domain points at your server's Tailscale address. Needs [Docker + Docker Compose](../docker-compose-ubuntu/) first, Tailscale on the server and your devices, and a domain on Cloudflare.
 
 - [Dockerfile](Dockerfile): builds Caddy with the Cloudflare DNS plugin
 - [compose.yml](compose.yml): the compose file, for `/opt/docker/caddy`
-- [conf/Caddyfile](conf/Caddyfile): Caddy's settings, which name goes to which app. It lives in the `conf` folder, which is mounted at `/etc/caddy`, because Caddy's Docker docs advise against mounting the Caddyfile as a single file (some editors replace the file, and Caddy would keep reading the old one)
+- Caddy's settings file, which says which name goes to which app. There are two versions; pick one:
+  - [Caddyfile.per-app](Caddyfile.per-app): one certificate per app. Simplest, but every app name shows up in public certificate logs (see below)
+  - [Caddyfile.wildcard](Caddyfile.wildcard): one wildcard certificate for every app, so the logs only show `*.sethshomelab.com`. What I use
+
+  Whichever you pick, save it on your server as `conf/Caddyfile` (in `/opt/docker/caddy`). The `conf` folder is mounted at `/etc/caddy`, because Caddy's Docker docs advise against mounting the Caddyfile as a single file (some editors replace the file, and Caddy would keep reading the old one)
 - [.env.example](.env.example): what the `.env` file looks like (put your own Cloudflare API token in)
 
-In the Caddyfile, change `sethshomelab.com` to your own domain (in both blocks), and `3552` to your app's port. For each new app, add a block like Arcane's, with its own name and port, then restart Caddy.
+In the Caddyfile, change `sethshomelab.com` to your own domain (in every block), and `3552` to your app's port. For each new app, add a block like Arcane's, with its own name and port (in the per-app version, that includes the `tls` part), then restart Caddy.
 
 ## Why a wildcard certificate: your app names stay private
 
-The moment Caddy gets a certificate, that name goes into public Certificate Transparency logs, for good. Anyone can search them, for example with [SSLMate's certificate search](https://sslmate.com/ct_search_api/). With one certificate per app, that's a list of every app you run. Nobody can reach the apps without Tailscale, but the Caddyfile here keeps the names private anyway:
+The moment Caddy gets a certificate, that name goes into public Certificate Transparency logs, for good. Anyone can search them, for example with [SSLMate's certificate search](https://sslmate.com/ct_search_api/). With one certificate per app, that's a list of every app you run. Nobody can reach the apps without Tailscale, but `Caddyfile.wildcard` keeps the names private anyway:
 
 - The `*.sethshomelab.com` block gets one wildcard certificate that covers every name under your domain, so the logs only show `*.sethshomelab.com`.
 - `abort` means any name without its own block gets nothing.
